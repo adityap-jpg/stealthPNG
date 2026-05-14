@@ -1,4 +1,4 @@
-# StealthPNG: LSB Steganography Tool
+# StealthPNG: Steganography Tool
 
 Inspired by the real-world tactics used in the 2010 "Illegals Program" spy case, **StealthPNG** is a Python utility that hides and extracts secret text within PNG images. Unlike standard encryption, which signals the presence of a secret, this tool achieves **covertness** by making the data statistically invisible to the human eye.
 
