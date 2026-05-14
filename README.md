@@ -17,18 +17,17 @@ Multi-Channel Storage: Encodes 3 bits per pixel (1 per RGB channel).
 
 Auto-Termination: Uses a Null Terminator (\0) to signal the end of a message during decoding.
 
-💻 Quick Start
-Installation
-Bash
+#💻 Quick Start
+
 pip install Pillow
 Usage
 Python
 from steg_tool import hide_secret_png, reveal_secret_png
 
-# Hide a message
+🔒 Hide a message
 hide_secret_png("input.png", "The Eagle has landed.", "secret_output.png")
 
-# Extract a message
+🔓Extract a message
 message = reveal_secret_png("secret_output.png")
 print(f"Hidden Message: {message}")
 
