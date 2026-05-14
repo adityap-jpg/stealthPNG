@@ -31,5 +31,7 @@ hide_secret_png("input.png", "The Eagle has landed.", "secret_output.png")
 # Extract a message
 message = reveal_secret_png("secret_output.png")
 print(f"Hidden Message: {message}")
+
+
 🔍 Educational Purpose
 This project was developed to explore Digital Forensics and Network Security, specifically focusing on how Steganography can bypass Data Loss Prevention (DLP) systems and be used for covert Command & Control (C2) communication.
