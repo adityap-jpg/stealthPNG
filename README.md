@@ -40,7 +40,7 @@ hide_secret_png("input.png", "The Eagle has landed.", "secret_output.png")
 message = reveal_secret_png("secret_output.png")
 print(f"Decoded Message: {message}")
 ```
-### 🔍 Strategic Significance
+### 🔍 Applications
 In modern cybersecurity, steganography is a critical vector for:
 
 Hidden Malware Communication: Attackers hide commands inside images on public platforms to bypass detection of a malicious "heartbeat."
