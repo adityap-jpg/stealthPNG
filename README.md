@@ -1,36 +1,56 @@
-StealthPNG: LSB Steganography Tool
-Inspired by the real-world tactics used in the 2010 "Illegals Program" spy case, StealthPNG is a Python utility that hides and extracts secret text within PNG images. Unlike standard encryption, this tool achieves covertness by making the data statistically invisible to the human eye.
+# StealthPNG: LSB Steganography Tool
 
-🛠️ How it Works
-The tool uses Least Significant Bit (LSB) manipulation. Every pixel in a PNG consists of Red, Green, and Blue channels (0–255). By altering the last bit of a color value:
+Inspired by the real-world tactics used in the 2010 "Illegals Program" spy case, **StealthPNG** is a Python utility that hides and extracts secret text within PNG images. Unlike standard encryption, which signals the presence of a secret, this tool achieves **covertness** by making the data statistically invisible to the human eye.
 
-Bitwise Masking: We use & 0xFE to clear the existing LSB.
+## 🛠️ How it Works
 
-Bitwise Insertion: We use | bit to inject our secret data.
+The tool utilizes **Least Significant Bit (LSB)** manipulation. Every pixel in a PNG consists of Red, Green, and Blue channels (valued 0–255). By altering the last bit of a color value, we can encode data without altering the visual appearance of the image.
 
-A change from value 255 to 254 represents only a 0.39% shift in brightness, making the modification undetectable without digital analysis.
+### Pixel-Level Manipulation
+PNG files use DEFLATE compression. Direct file manipulation would corrupt the image structure. This tool uses the **Pillow** library to unpack the image into RAM, allowing for safe bitwise operations:
 
-🚀 Features
-Memory-Safe Processing: Uses the Pillow library to handle PNG compression by manipulating raw pixel data in RAM.
+*   **The Mask (`&`)**: We use `& 0xFE` (11111110) to clear the existing LSB, creating a "blank slot."
+*   **The Insertion (`|`)**: We use `| bit` to inject our secret binary data (0 or 1) into that slot.
+*   **The Processing Loop**: The algorithm iterates through every RGB channel, effectively storing 3 bits of data per pixel.
 
-Multi-Channel Storage: Encodes 3 bits per pixel (1 per RGB channel).
+## 🪓 Practical Example: Hiding "Axe"
+To hide the word **"Axe"**, the tool converts the characters into binary:
+*   **A** → `01000001` | **x** → `01111000` | **e** → `01100101` | **\0** → `00000000`
 
-Auto-Termination: Uses a Null Terminator (\0) to signal the end of a message during decoding.
+Total bits to hide: **32 bits**. This requires 32 color values (approx. 11 pixels). Changing a value from 255 to 254 results in a **0.39%** shift in brightness—insignificant to human biology, but a clear data point for the decoder.
 
-#💻 Quick Start
+## 🚀 Quick Start
 
+### Prerequisites
+*   Python 3.x
+*   Pillow Library
+
+### Installation
+```bash
 pip install Pillow
-Usage
-Python
+## Usage
+
+```python
 from steg_tool import hide_secret_png, reveal_secret_png
 
-🔒 Hide a message
+# Encode a message into a PNG
 hide_secret_png("input.png", "The Eagle has landed.", "secret_output.png")
 
-🔓Extract a message
+# Decode the message from the PNG
 message = reveal_secret_png("secret_output.png")
-print(f"Hidden Message: {message}")
+print(f"Decoded Message: {message}")
 
 
-🔍 Educational Purpose
-This project was developed to explore Digital Forensics and Network Security, specifically focusing on how Steganography can bypass Data Loss Prevention (DLP) systems and be used for covert Command & Control (C2) communication.
+### 🔍 Strategic Significance
+In modern cybersecurity, steganography is a critical vector for:
+
+Hidden Malware Communication: Attackers hide commands inside images on public platforms to bypass detection of a malicious "heartbeat."
+
+Bypassing Data Loss Prevention (DLP): Embedding proprietary data inside outbound media traffic to avoid automated text-based scanners.
+
+Digital Attribution: Embedding unique, invisible "fingerprints" to trace the source of leaked documents.
+
+Tamper Detection: Using pixel-level hashes to verify image integrity.
+
+Note: This project is for educational purposes in digital forensics and network security.
+
