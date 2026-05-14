@@ -39,8 +39,7 @@ hide_secret_png("input.png", "The Eagle has landed.", "secret_output.png")
 # Decode the message from the PNG
 message = reveal_secret_png("secret_output.png")
 print(f"Decoded Message: {message}")
-
-
+```
 ### 🔍 Strategic Significance
 In modern cybersecurity, steganography is a critical vector for:
 
